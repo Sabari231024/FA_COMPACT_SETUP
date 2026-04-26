@@ -36,7 +36,7 @@ No dependency conflicts
 Faster setup
 Reproducible
 
-### Global Installation (Shell Script)
+## Global Installation (Shell Script)
 
 This method installs dependencies globally on the system.
 
@@ -45,10 +45,10 @@ This method installs dependencies globally on the system.
 chmod +x setup.sh
 source ./setup.sh
 ```
-# Advantages
+#### Advantages
 Useful for system-wide setups
 No separate environment required
-# Limitations
+#### Limitations
 Slower setup
 Risk of conflicts with existing packages
 Less reproducible
