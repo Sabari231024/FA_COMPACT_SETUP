@@ -4,7 +4,6 @@ Setting up a Flash Attention environment is often difficult and time-consuming. 
 
 FA_COMPACT_SETUP simplifies this process by automatically identifying compatible versions and configuring the environment efficiently.
 
----
 
 ## Features
 
@@ -14,13 +13,9 @@ FA_COMPACT_SETUP simplifies this process by automatically identifying compatible
 - Supports both local (isolated) and global setups  
 - Helps minimize unnecessary GPU usage  
 
----
-
 ## Installation Options
 
 Two installation approaches are available depending on your requirements.
-
----
 
 ### Local Installation (Recommended)
 
@@ -34,3 +29,26 @@ This is the fastest and safest method.
 
 ```bash
 python setup.py
+```
+#### Advantages
+Fully isolated environment
+No dependency conflicts
+Faster setup
+Reproducible
+
+### Global Installation (Shell Script)
+
+This method installs dependencies globally on the system.
+
+#### Steps
+```bash
+chmod +x setup.sh
+source ./setup.sh
+```
+# Advantages
+Useful for system-wide setups
+No separate environment required
+# Limitations
+Slower setup
+Risk of conflicts with existing packages
+Less reproducible
