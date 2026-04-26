@@ -1,2 +1,36 @@
 # FA_COMPACT_SETUP
-Setting Up Flash Attention environment is one of th ehardest jobs . it requires multiple trial and error and hence the GPU wastage will be very high 
+
+Setting up a Flash Attention environment is often difficult and time-consuming. It typically requires multiple rounds of trial and error, which can lead to excessive GPU usage and wasted compute.
+
+FA_COMPACT_SETUP simplifies this process by automatically identifying compatible versions and configuring the environment efficiently.
+
+---
+
+## Features
+
+- Automatically detects compatible dependency versions  
+- Sets up the environment with minimal manual effort  
+- Reduces trial-and-error during installation  
+- Supports both local (isolated) and global setups  
+- Helps minimize unnecessary GPU usage  
+
+---
+
+## Installation Options
+
+Two installation approaches are available depending on your requirements.
+
+---
+
+### Local Installation (Recommended)
+
+This is the fastest and safest method.
+
+- Uses `python setup.py`  
+- Creates an isolated environment using micromamba  
+- Avoids system-level conflicts  
+
+#### Steps
+
+```bash
+python setup.py
