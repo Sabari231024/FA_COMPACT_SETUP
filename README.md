@@ -1,4 +1,4 @@
-# FA_COMPACT_SETUP
+# FLASHLAUNCH
 
 Setting up a Flash Attention environment is often difficult and time-consuming. It typically requires multiple rounds of trial and error, which can lead to excessive GPU usage and wasted compute.
 
