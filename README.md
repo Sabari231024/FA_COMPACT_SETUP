@@ -1,4 +1,4 @@
-# ⚡ FLASHLAUNCH
+# FLASHLAUNCH
 
 > **Zero-friction Flash Attention environment setup for cloud GPU containers — detect, resolve, install.**
 
