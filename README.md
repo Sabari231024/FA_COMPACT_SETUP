@@ -1,10 +1,29 @@
-# FLASHLAUNCH
+# ⚡ FLASHLAUNCH
 
-> **Zero-friction Flash Attention environment setup — detect, resolve, install.**
+> **Zero-friction Flash Attention environment setup for cloud GPU containers — detect, resolve, install.**
 
-Setting up a [Flash Attention](https://github.com/Dao-AILab/flash-attention) environment is notoriously painful. The dependency matrix across **Python versions**, **PyTorch builds**, **CUDA toolkits**, and **NVIDIA driver revisions** creates a combinatorial explosion of compatibility issues. Most developers end up in a tedious loop of trial-and-error — installing, failing, uninstalling, and retrying — often burning expensive GPU hours in the process.
+Setting up [Flash Attention](https://github.com/Dao-AILab/flash-attention) on hosted GPU containers — **JarvisLabs**, **Lambda Cloud**, **Vast.ai**, **RunPod**, **Google Colab Pro**, and similar platforms — is notoriously painful. These environments ship with pre-installed NVIDIA drivers and CUDA runtimes, but **you don't get to choose the exact versions**. The dependency matrix across Python versions, PyTorch builds, CUDA toolkits, and driver revisions creates a combinatorial explosion where a single mismatch means a failed install.
 
-**FLASHLAUNCH** eliminates this entirely. It queries your system's NVIDIA driver, cross-references a curated compatibility matrix (`fa_compat.yaml`), and automatically provisions a working environment with the correct Python, PyTorch, CUDA, and Flash Attention versions — in a single command.
+**FLASHLAUNCH** eliminates this entirely. It queries your container's NVIDIA driver, cross-references a curated compatibility matrix (`fa_compat.yaml`), and automatically provisions a working environment with the correct Python, PyTorch, CUDA, and Flash Attention versions — in a single command.
+
+---
+
+## The Problem: GPU Compute Wasted on Dependency Hell
+
+When you spin up a cloud GPU instance (often billed by the minute), you typically have **no idea** which exact combination of Flash Attention + PyTorch + CUDA + Python will work with the driver version pre-installed on that machine. The result is a familiar and expensive cycle:
+
+```
+Attempt 1:  pip install flash-attn        → CUDA version mismatch       (10 min wasted)
+Attempt 2:  pip install torch==2.1        → Driver too old for CUDA 12  (8 min wasted)  
+Attempt 3:  Build from source             → Compilation fails, OOM      (25 min wasted)
+Attempt 4:  Google the error, try again   → Wrong Python version        (12 min wasted)
+...
+Finally:    Find the right combo           → Works                       (55+ min burned)
+```
+
+Every failed attempt on a billed GPU instance is **money and compute directly wasted** — not on your actual workload, but on fighting toolchain incompatibilities. On high-end instances (A100, H100), this can easily cost **$5–20+ per setup session** in wasted compute.
+
+**FLASHLAUNCH solves this by removing the guesswork.** It reads your driver version, looks up the exact compatible combination from 1,000+ tested configurations, and installs everything correctly on the **first try** — typically in under 5 minutes.
 
 ---
 
@@ -12,9 +31,10 @@ Setting up a [Flash Attention](https://github.com/Dao-AILab/flash-attention) env
 
 - **Auto-detection** — Reads your GPU driver version via `nvidia-smi` and resolves the best-fit configuration
 - **Curated compatibility matrix** — A maintained YAML database (`fa_compat.yaml`) mapping 1,000+ valid combinations of FA version × Python × PyTorch × CUDA × driver
+- **Built for cloud GPU containers** — Designed specifically for hosted environments (JarvisLabs, Lambda, Vast.ai, RunPod) where you inherit a pre-configured driver and can't afford trial-and-error
 - **Isolated environments** — Local mode uses `micromamba` to create a sandboxed environment with zero risk to your system Python
 - **Global option** — Shell script path for system-wide installs when isolation isn't needed
-- **Prebuilt wheels** — Downloads precompiled `.whl` files directly — no compilation from source, no CUDA toolkit required on-host
+- **Prebuilt wheels** — Downloads precompiled `.whl` files directly — no compilation from source, no build-time GPU usage
 - **Full logging** — Every step is logged to `setup.log` for debugging and reproducibility
 - **Smart caching** — Compatibility data is cached locally (`fa_cache.yaml`) with a 1-hour TTL to avoid redundant network calls
 
@@ -144,7 +164,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A["🚀 source ./setup.sh"] --> B["Query nvidia-smi for driver version"]
+    A["source ./setup.sh"] --> B["Query nvidia-smi for driver version"]
     B --> C["Fetch fa_compat.yaml via curl"]
     C --> C1["Cache locally with 1h TTL"]
     C1 --> D["Parse YAML with awk"]
