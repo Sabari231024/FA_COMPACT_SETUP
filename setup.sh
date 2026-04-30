@@ -14,8 +14,6 @@ run() {
     log "\n[CMD] $*"
     "$@"
 }
-
-# ✅ version comparison (robust)
 version_geq() {
     [ "$(printf '%s\n%s\n' "$1" "$2" | sort -V | tail -n1)" = "$1" ]
 }
@@ -41,7 +39,6 @@ load_yaml() {
     fetch_yaml
 }
 
-# ✅ robust YAML parser
 parse_yaml() {
     awk '
     BEGIN {
@@ -69,7 +66,6 @@ parse_yaml() {
     ' "$CACHE_FILE"
 }
 
-# ✅ select latest compatible
 select_best_config() {
     DRIVER="$1"
 
@@ -83,7 +79,6 @@ select_best_config() {
     done | sort -t'|' -k1,1V -k2,2V | tail -n1
 }
 
-# ✅ find correct python binary
 find_python() {
     TARGET="$1"
 
@@ -122,8 +117,6 @@ install_fa() {
 
     rm "$WHEEL"
 }
-
-# ✅ CLEAN + PERSISTENT PYTHON SWITCH
 set_default_python() {
     PY_CMD="$1"
 
@@ -191,10 +184,9 @@ main() {
     install_torch "$PY_CMD" "$TORCH"
     install_fa "$PY_CMD" "$URL"
 
-    # 🔥 persistent python switch
     set_default_python "$PY_CMD"
 
-    log "\n✅ SUCCESS"
+    log "\nSUCCESS"
 
     log "\nVerify:"
     run python --version
